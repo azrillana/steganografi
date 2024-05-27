@@ -1,6 +1,6 @@
 # Install Stegano NodeJS Application
 
-## Install the required Node.js packages
+## Required Package
 ### Linux
 1. Install `ffmpeg` with this command :
    ```sh
@@ -11,8 +11,14 @@
    ```sh
    https://ffmpeg.org/download.html
 
-## Start The Server
+## Required NodeJS Package
 
 2. Run this command for Linux & Windows :
+   ```sh
+   npm install express multer fluent-ffmpeg
+
+## Start The Server
+
+3. Run this command for Linux & Windows :
    ```sh
    node server.js
