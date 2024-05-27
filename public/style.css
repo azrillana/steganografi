@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url(bg4.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+  width: 420px;
+  background: transparent;
+  border: 4px solid rgba(255, 255, 255, .2);
+  backdrop-filter: blur(9px);
+  color: #fff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  position: relative;
+  text-align: center;
+}
+
+.container h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.container form {
+  margin-bottom: 20px;
+}
+
+.container label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.container input[type="text"],
+.container input[type="file"] {
+  width: calc(100% - 20px);
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: #333;
+}
+
+.container input[type="file"] {
+  padding: 10px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+}
+
+.container input[type="file"]::-webkit-file-upload-button {
+  padding: 10px;
+  color: #000000;
+  background: #33f7bc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container input[type="file"]::-webkit-file-upload-button:hover {
+  background: #29d3a3;
+}
+
+.container button {
+  width: 100%;
+  height: 45px;
+  background: #33f7bc;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 112, 240, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin: 25px 0;
+}
+
+.container button:hover {
+  background: #29d3a3;
+}
+
+#output {
+  margin-top: 20px;
+}
+
+#output a {
+  display: block;
+  margin-top: 20px;  /* Add space before the link */
+  color: #33f7bc;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+#output a:hover {
+  text-decoration: underline;
+}

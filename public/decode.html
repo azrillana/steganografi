@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decode Video Steganography</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Decode Video Steganography</h1>
+        <form id="extractForm">
+            <label for="extractVideoFile">Select Video to Extract Text:</label>
+            <input type="file" id="extractVideoFile" accept="video/*" required>
+            <button type="submit">Extract Text from Video</button>
+        </form>
+        <div id="output"></div>
+        <br>
+        <button onclick="window.location.href='encode.html'">Go to Encode Page</button>
+        <br>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

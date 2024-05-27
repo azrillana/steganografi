@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encode Video Steganography</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Encode Video Steganography</h1>
+        <form id="steganographyForm">
+            <label for="videoFile">Select Video:</label>
+            <input type="file" id="videoFile" accept="video/*" required>
+            <label for="textFile">Select Text File:</label>
+            <input type="file" id="textFile" accept=".txt" required>
+            <button type="submit">Embed Text into Video</button>
+        </form>
+        <div id="output"></div>
+        <br>
+        <button onclick="window.location.href='decode.html'">Go to Decode Page</button>
+        <br>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
