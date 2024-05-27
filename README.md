@@ -9,7 +9,7 @@
 ### Windows
 1. Install `npm` with this link :
    ```sh
-   `https://nodejs.org/dist/v20.13.1/node-v20.13.1-x64.msi`
+   https://nodejs.org/dist/v20.13.1/node-v20.13.1-x64.msi
 
 Reference tutorial install link : `https://phoenixnap.com/kb/install-node-js-npm-on-windows`
 
