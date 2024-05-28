@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const steganographyForm = document.getElementById('steganographyForm');
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    const loadingBar = document.getElementById('loadingBar');
+
+    function updateLoadingBar(progress) {
+        loadingBar.style.width = `${progress}%`;
+        loadingBar.textContent = `${progress}%`;
+    }
+
+    let eventSource = null;
+
     if (steganographyForm) {
         steganographyForm.addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -10,6 +20,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData();
             formData.append('videoFile', videoFile);
             formData.append('textFile', textFile);
+
+            loadingBarContainer.style.display = 'block';
+            updateLoadingBar(0);
+
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            eventSource = new EventSource('/progress');
+            eventSource.onmessage = function(event) {
+                const progress = parseInt(event.data, 10);
+                updateLoadingBar(progress);
+            };
 
             try {
                 const response = await fetch('/embed', {
@@ -28,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (error) {
                 console.error('Error:', error);
                 alert('Error embedding text into video');
+            } finally {
+                eventSource.close();
+                setTimeout(() => loadingBarContainer.style.display = 'none', 500);
             }
         });
     }

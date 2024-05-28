@@ -3,6 +3,7 @@ const multer = require('multer');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const path = require('path');
+const EventEmitter = require('events');
 
 const app = express();
 
@@ -10,12 +11,12 @@ const maxSize = 2 * 1024 * 1024; // 2MB
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
+    cb(null, Date.now() + '-' + file.originalname);
   }
-})
+});
 
 const upload = multer({
   storage: storage,
@@ -31,12 +32,29 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'encode.html'));
 });
 
+const progressEmitter = new EventEmitter();
+
+app.get('/progress', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  const onProgress = (progress) => {
+    res.write(`data: ${progress}\n\n`);
+  };
+
+  progressEmitter.on('progress', onProgress);
+
+  req.on('close', () => {
+    progressEmitter.removeListener('progress', onProgress);
+  });
+});
+
 app.post('/embed', upload.fields([{ name: 'videoFile', maxCount: 1 }, { name: 'textFile', maxCount: 1 }]), (req, res) => {
   const videoPath = req.files['videoFile'][0].path;
   const textPath = req.files['textFile'][0].path;
   const outputPath = 'outputs/steganography_video.mp4';
 
-  // Pastikan direktori 'outputs' ada
   if (!fs.existsSync('outputs')) {
     fs.mkdirSync('outputs');
   }
@@ -46,10 +64,18 @@ app.post('/embed', upload.fields([{ name: 'videoFile', maxCount: 1 }, { name: 't
       return res.status(500).send('Error reading text file');
     }
 
+    let progress = 0;
+    progressEmitter.emit('progress', progress);
+
     ffmpeg(videoPath)
       .outputOptions('-metadata', `comment=${Buffer.from(textData).toString('base64')}`)
       .save(outputPath)
+      .on('progress', (progressInfo) => {
+        progress = Math.min(100, Math.round(progressInfo.percent));
+        progressEmitter.emit('progress', progress);
+      })
       .on('end', () => {
+        progressEmitter.emit('progress', 100);
         res.download(outputPath, (err) => {
           if (err) {
             console.error('Error during file download:', err);
